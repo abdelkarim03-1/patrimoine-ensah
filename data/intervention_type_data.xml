@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Sample Locations -->
+        <record id="location_ensah_admin" model="patrimoine.location">
+            <field name="name">Bureau Administration</field>
+            <field name="code">ADM</field>
+            <field name="building">Bâtiment Principal</field>
+            <field name="floor">RDC</field>
+            <field name="location_type">office</field>
+        </record>
+
+        <record id="location_ensah_lab_info" model="patrimoine.location">
+            <field name="name">Laboratoire Informatique 1</field>
+            <field name="code">LAB-INFO-1</field>
+            <field name="building">Bâtiment Principal</field>
+            <field name="floor">1er</field>
+            <field name="location_type">lab</field>
+            <field name="capacity">30</field>
+        </record>
+
+        <record id="location_ensah_amphi" model="patrimoine.location">
+            <field name="name">Amphithéâtre A</field>
+            <field name="code">AMPHI-A</field>
+            <field name="building">Bâtiment Principal</field>
+            <field name="floor">RDC</field>
+            <field name="location_type">amphitheater</field>
+            <field name="capacity">150</field>
+        </record>
+    </data>
+</odoo>

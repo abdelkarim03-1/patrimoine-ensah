@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Root Menu -->
+    <menuitem
+        id="menu_patrimoine_root"
+        name="Patrimoine ENSAH"
+        sequence="5"
+        web_icon="patrimoine_ensah,static/description/icon.png"
+    />
+
+    <!-- Dashboard -->
+    <menuitem
+        id="menu_patrimoine_dashboard"
+        name="Tableau de Bord"
+        parent="menu_patrimoine_root"
+        action="action_patrimoine_dashboard_temp"
+        sequence="1"
+    />
+
+    <!-- Equipment Section -->
+    <menuitem
+        id="menu_patrimoine_equipment_section"
+        name="Équipements"
+        parent="menu_patrimoine_root"
+        sequence="10"
+    />
+
+    <menuitem
+        id="menu_patrimoine_equipment"
+        name="Tous les Équipements"
+        parent="menu_patrimoine_equipment_section"
+        action="action_patrimoine_equipment"
+        sequence="1"
+    />
+
+    <menuitem
+        id="menu_patrimoine_equipment_available"
+        name="Disponibles"
+        parent="menu_patrimoine_equipment_section"
+        action="action_patrimoine_equipment_available"
+        sequence="2"
+    />
+
+    <menuitem
+        id="menu_patrimoine_equipment_in_use"
+        name="En Utilisation"
+        parent="menu_patrimoine_equipment_section"
+        action="action_patrimoine_equipment_in_use"
+        sequence="3"
+    />
+
+    <menuitem
+        id="menu_patrimoine_equipment_maintenance"
+        name="En Maintenance"
+        parent="menu_patrimoine_equipment_section"
+        action="action_patrimoine_equipment_maintenance"
+        sequence="4"
+    />
+
+    <!-- Interventions Section -->
+    <menuitem
+        id="menu_patrimoine_intervention_section"
+        name="Interventions"
+        parent="menu_patrimoine_root"
+        sequence="20"
+    />
+
+    <menuitem
+        id="menu_patrimoine_intervention"
+        name="Toutes les Interventions"
+        parent="menu_patrimoine_intervention_section"
+        action="action_patrimoine_intervention"
+        sequence="1"
+    />
+
+    <menuitem
+        id="menu_patrimoine_intervention_pending"
+        name="En Attente"
+        parent="menu_patrimoine_intervention_section"
+        action="action_patrimoine_intervention_pending"
+        sequence="2"
+    />
+
+    <menuitem
+        id="menu_patrimoine_intervention_in_progress"
+        name="En Cours"
+        parent="menu_patrimoine_intervention_section"
+        action="action_patrimoine_intervention_in_progress"
+        sequence="3"
+    />
+
+    <menuitem
+        id="menu_patrimoine_intervention_urgent"
+        name="Urgentes"
+        parent="menu_patrimoine_intervention_section"
+        action="action_patrimoine_intervention_urgent"
+        sequence="4"
+    />
+
+    <!-- Configuration Section -->
+    <menuitem
+        id="menu_patrimoine_configuration"
+        name="Configuration"
+        parent="menu_patrimoine_root"
+        sequence="90"
+        groups="group_patrimoine_manager"
+    />
+
+    <menuitem
+        id="menu_patrimoine_category"
+        name="Catégories"
+        parent="menu_patrimoine_configuration"
+        action="action_patrimoine_category"
+        sequence="1"
+    />
+
+    <menuitem
+        id="menu_patrimoine_location"
+        name="Localisations"
+        parent="menu_patrimoine_configuration"
+        action="action_patrimoine_location"
+        sequence="2"
+    />
+
+    <menuitem
+        id="menu_patrimoine_supplier"
+        name="Fournisseurs"
+        parent="menu_patrimoine_configuration"
+        action="action_patrimoine_supplier"
+        sequence="3"
+    />
+
+    <!-- Reports Section -->
+    <menuitem
+        id="menu_patrimoine_reports"
+        name="Rapports"
+        parent="menu_patrimoine_root"
+        sequence="80"
+    />
+</odoo>

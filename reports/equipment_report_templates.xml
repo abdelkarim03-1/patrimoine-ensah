@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Equipment Report Action -->
+    <record id="action_report_equipment" model="ir.actions.report">
+        <field name="name">Fiche Équipement</field>
+        <field name="model">patrimoine.equipment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">patrimoine_ensah.report_equipment_template</field>
+        <field name="report_file">patrimoine_ensah.report_equipment_template</field>
+        <field name="binding_model_id" ref="model_patrimoine_equipment"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Equipment Report Template -->
+    <template id="report_equipment_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Fiche Équipement - <span t-field="o.reference"/></h2>
+
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <strong>Nom:</strong> <span t-field="o.name"/><br/>
+                                <strong>Catégorie:</strong> <span t-field="o.category_id"/><br/>
+                                <strong>Marque:</strong> <span t-field="o.brand"/><br/>
+                                <strong>Modèle:</strong> <span t-field="o.model"/><br/>
+                                <strong>N° Série:</strong> <span t-field="o.serial_number"/><br/>
+                            </div>
+                            <div class="col-6">
+                                <strong>État:</strong> <span t-field="o.state"/><br/>
+                                <strong>Condition:</strong> <span t-field="o.condition"/><br/>
+                                <strong>Localisation:</strong> <span t-field="o.location_id"/><br/>
+                                <strong>Assigné à:</strong> <span t-field="o.assigned_to_id"/><br/>
+                            </div>
+                        </div>
+
+                        <h4 class="mt-4">Informations d'Acquisition</h4>
+                        <div class="row">
+                            <div class="col-6">
+                                <strong>Fournisseur:</strong> <span t-field="o.supplier_id"/><br/>
+                                <strong>Date d'achat:</strong> <span t-field="o.purchase_date"/><br/>
+                                <strong>Prix d'achat:</strong> <span t-field="o.purchase_price"/><br/>
+                            </div>
+                            <div class="col-6">
+                                <strong>Début garantie:</strong> <span t-field="o.warranty_start_date"/><br/>
+                                <strong>Fin garantie:</strong> <span t-field="o.warranty_end_date"/><br/>
+                                <strong>Sous garantie:</strong>
+                                <t t-if="o.is_under_warranty">Oui</t>
+                                <t t-else="">Non</t>
+                            </div>
+                        </div>
+
+                        <h4 class="mt-4">Historique des Interventions</h4>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Référence</th>
+                                    <th>Date</th>
+                                    <th>Type</th>
+                                    <th>Technicien</th>
+                                    <th>Coût</th>
+                                    <th>État</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.intervention_ids" t-as="intervention">
+                                    <tr>
+                                        <td><span t-field="intervention.reference"/></td>
+                                        <td><span t-field="intervention.intervention_date"/></td>
+                                        <td><span t-field="intervention.intervention_type"/></td>
+                                        <td><span t-field="intervention.technician_id"/></td>
+                                        <td><span t-field="intervention.total_cost"/></td>
+                                        <td><span t-field="intervention.state"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <div class="mt-4">
+                            <strong>Nombre total d'interventions:</strong> <span t-field="o.intervention_count"/><br/>
+                            <strong>Coût total des interventions:</strong> <span t-field="o.total_intervention_cost"/>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

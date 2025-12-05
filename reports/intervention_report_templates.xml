@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Intervention Report Action -->
+    <record id="action_report_intervention" model="ir.actions.report">
+        <field name="name">Bon d'Intervention</field>
+        <field name="model">patrimoine.intervention</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">patrimoine_ensah.report_intervention_template</field>
+        <field name="report_file">patrimoine_ensah.report_intervention_template</field>
+        <field name="binding_model_id" ref="model_patrimoine_intervention"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Intervention Report Template -->
+    <template id="report_intervention_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Bon d'Intervention - <span t-field="o.reference"/></h2>
+                        <h4><span t-field="o.name"/></h4>
+
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <h5>Équipement</h5>
+                                <strong>Nom:</strong> <span t-field="o.equipment_id"/><br/>
+                                <strong>Référence:</strong> <span t-field="o.equipment_reference"/><br/>
+                                <strong>Catégorie:</strong> <span t-field="o.equipment_category_id"/><br/>
+                                <strong>Localisation:</strong> <span t-field="o.location_id"/><br/>
+                            </div>
+                            <div class="col-6">
+                                <h5>Intervention</h5>
+                                <strong>Type:</strong> <span t-field="o.intervention_type"/><br/>
+                                <strong>Priorité:</strong> <span t-field="o.priority"/><br/>
+                                <strong>Date demande:</strong> <span t-field="o.request_date"/><br/>
+                                <strong>Date intervention:</strong> <span t-field="o.intervention_date"/><br/>
+                                <strong>État:</strong> <span t-field="o.state"/><br/>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <h5>Demandeur</h5>
+                                <strong>Nom:</strong> <span t-field="o.requester_id"/><br/>
+                                <strong>Téléphone:</strong> <span t-field="o.requester_phone"/><br/>
+                                <strong>Email:</strong> <span t-field="o.requester_email"/><br/>
+                            </div>
+                            <div class="col-6">
+                                <h5>Technicien</h5>
+                                <strong>Nom:</strong> <span t-field="o.technician_id"/><br/>
+                                <strong>Téléphone:</strong> <span t-field="o.technician_phone"/><br/>
+                            </div>
+                        </div>
+
+                        <h5 class="mt-4">Description du Problème</h5>
+                        <div t-field="o.description"/>
+
+                        <h5 class="mt-4">Diagnostic</h5>
+                        <div t-field="o.diagnostic"/>
+
+                        <h5 class="mt-4">Travail Effectué</h5>
+                        <div t-field="o.work_done"/>
+
+                        <h5 class="mt-4">Pièces Utilisées</h5>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Pièce</th>
+                                    <th>Référence</th>
+                                    <th>Quantité</th>
+                                    <th>Prix Unitaire</th>
+                                    <th>Sous-total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="o.spare_parts_ids" t-as="part">
+                                    <tr>
+                                        <td><span t-field="part.name"/></td>
+                                        <td><span t-field="part.reference"/></td>
+                                        <td><span t-field="part.quantity"/></td>
+                                        <td><span t-field="part.unit_price"/></td>
+                                        <td><span t-field="part.subtotal"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <div class="row mt-4">
+                            <div class="col-6">
+                                <h5>Temps</h5>
+                                <strong>Début:</strong> <span t-field="o.start_datetime"/><br/>
+                                <strong>Fin:</strong> <span t-field="o.end_datetime"/><br/>
+                                <strong>Durée:</strong> <span t-field="o.duration"/> heures<br/>
+                            </div>
+                            <div class="col-6">
+                                <h5>Coûts</h5>
+                                <strong>Main d'œuvre:</strong> <span t-field="o.labor_cost"/><br/>
+                                <strong>Pièces:</strong> <span t-field="o.spare_parts_cost"/><br/>
+                                <strong>Autres:</strong> <span t-field="o.other_costs"/><br/>
+                                <hr/>
+                                <strong>Total:</strong> <span t-field="o.total_cost" style="font-size: 1.2em;"/><br/>
+                            </div>
+                        </div>
+
+                        <h5 class="mt-4">Résultat</h5>
+                        <strong>Statut de résolution:</strong> <span t-field="o.resolution_status"/><br/>
+                        <strong>Satisfaction:</strong> <span t-field="o.customer_satisfaction"/><br/>
+
+                        <h5 class="mt-4">Recommandations</h5>
+                        <div t-field="o.recommendations"/>
+
+                        <div class="mt-5 pt-3" style="border-top: 1px solid #ddd;">
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Signature Technicien</strong><br/><br/><br/>
+                                    _______________________
+                                </div>
+                                <div class="col-6">
+                                    <strong>Signature Demandeur</strong><br/><br/><br/>
+                                    _______________________
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

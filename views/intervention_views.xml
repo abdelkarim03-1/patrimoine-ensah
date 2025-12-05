@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================ -->
+    <!-- INTERVENTION FORM VIEW -->
+    <!-- ============================================ -->
+    <record id="view_patrimoine_intervention_form" model="ir.ui.view">
+        <field name="name">patrimoine.intervention.form</field>
+        <field name="model">patrimoine.intervention</field>
+        <field name="arch" type="xml">
+            <form string="Intervention">
+                <header>
+                    <button name="action_submit" string="Soumettre" type="object"
+                            class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <button name="action_assign" string="Assigner" type="object"
+                            class="oe_highlight" attrs="{'invisible': [('state', '!=', 'submitted')]}"/>
+                    <button name="action_start" string="Démarrer" type="object"
+                            class="oe_highlight" attrs="{'invisible': [('state', '!=', 'assigned')]}"/>
+                    <button name="action_complete" string="Terminer" type="object"
+                            class="oe_highlight" attrs="{'invisible': [('state', '!=', 'in_progress')]}"/>
+                    <button name="action_cancel" string="Annuler" type="object"
+                            attrs="{'invisible': [('state', 'in', ['done', 'cancelled'])]}"/>
+                    <button name="action_reset_to_draft" string="Remettre en Brouillon"
+                            type="object" attrs="{'invisible': [('state', '=', 'draft')]}"
+                            groups="patrimoine_ensah.group_patrimoine_manager"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,submitted,assigned,in_progress,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object"
+                                name="action_view_equipment" icon="fa-wrench">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Voir</span>
+                                <span class="o_stat_text">Équipement</span>
+                            </div>
+                        </button>
+                        <button class="oe_stat_button" type="object"
+                                name="action_view_attachments" icon="fa-paperclip">
+                            <field name="attachments_count" widget="statinfo" string="Pièces Jointes"/>
+                        </button>
+                    </div>
+
+                    <widget name="web_ribbon" title="Urgente" bg_color="bg-danger"
+                            attrs="{'invisible': [('priority', '!=', 'urgent')]}"/>
+                    <widget name="web_ribbon" title="Annulée" bg_color="bg-secondary"
+                            attrs="{'invisible': [('state', '!=', 'cancelled')]}"/>
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="reference" readonly="1"/>
+                        </h1>
+                        <h2>
+                            <field name="name" placeholder="Titre de l'intervention"/>
+                        </h2>
+                    </div>
+
+                    <group>
+                        <group string="Équipement">
+                            <field name="equipment_id"/>
+                            <field name="equipment_reference" readonly="1"/>
+                            <field name="equipment_category_id" readonly="1"/>
+                            <field name="location_id"/>
+                            <field name="building" readonly="1"/>
+                        </group>
+                        <group string="Intervention">
+                            <field name="intervention_type"/>
+                            <field name="priority" widget="priority"/>
+                            <field name="request_date"/>
+                            <field name="intervention_date"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="Demandeur">
+                            <field name="requester_id" domain="[('active', '=', True)]"/>
+                            <field name="requester_phone" readonly="1"/>
+                            <field name="requester_email" readonly="1" widget="email"/>
+                        </group>
+                        <group string="Technicien">
+                            <field name="technician_id" domain="[('active', '=', True)]"/>
+                            <field name="technician_phone" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Description" name="description">
+                            <group>
+                                <field name="description" placeholder="Décrivez le problème ou la demande d'intervention..."
+                                       nolabel="1"/>
+                            </group>
+                        </page>
+
+                        <page string="Diagnostic &amp; Travail" name="work">
+                            <group>
+                                <field name="diagnostic" placeholder="Diagnostic du technicien..."/>
+                            </group>
+                            <group>
+                                <field name="work_done" placeholder="Description du travail effectué..."/>
+                            </group>
+                            <group>
+                                <field name="recommendations" placeholder="Recommandations..."/>
+                            </group>
+                        </page>
+
+                        <page string="Pièces Utilisées" name="spare_parts">
+                            <field name="spare_parts_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="reference"/>
+                                    <field name="quantity"/>
+                                    <field name="unit_price"/>
+                                    <field name="subtotal" sum="Total"/>
+                                    <field name="notes"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Coûts &amp; Temps" name="costs">
+                            <group>
+                                <group string="Temps">
+                                    <field name="start_datetime"/>
+                                    <field name="end_datetime"/>
+                                    <field name="duration" widget="float_time"/>
+                                </group>
+                                <group string="Coûts">
+                                    <field name="currency_id" invisible="1"/>
+                                    <field name="labor_cost" widget="monetary"/>
+                                    <field name="spare_parts_cost" widget="monetary" readonly="1"/>
+                                    <field name="other_costs" widget="monetary"/>
+                                    <field name="total_cost" widget="monetary" readonly="1"
+                                           class="oe_subtotal_footer_separator"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Résultat" name="result">
+                            <group>
+                                <group>
+                                    <field name="resolution_status"/>
+                                    <field name="customer_satisfaction" widget="priority"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Notes" name="notes">
+                            <field name="notes" placeholder="Notes supplémentaires..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- ============================================ -->
+    <!-- INTERVENTION TREE VIEW -->
+    <!-- ============================================ -->
+    <record id="view_patrimoine_intervention_tree" model="ir.ui.view">
+        <field name="name">patrimoine.intervention.tree</field>
+        <field name="model">patrimoine.intervention</field>
+        <field name="arch" type="xml">
+            <tree string="Interventions" sample="1"
+                  decoration-danger="priority == 'urgent'"
+                  decoration-warning="priority == 'high'"
+                  decoration-info="state == 'in_progress'"
+                  decoration-success="state == 'done'"
+                  decoration-muted="state == 'cancelled'">
+                <field name="reference"/>
+                <field name="name"/>
+                <field name="equipment_id"/>
+                <field name="intervention_type"/>
+                <field name="priority" widget="priority" optional="show"/>
+                <field name="requester_id" optional="hide"/>
+                <field name="technician_id" optional="show"/>
+                <field name="request_date" optional="hide"/>
+                <field name="intervention_date" optional="show"/>
+                <field name="state" widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-warning="state in ['submitted', 'assigned', 'in_progress']"
+                       decoration-success="state == 'done'"
+                       decoration-muted="state == 'cancelled'"/>
+                <field name="duration" optional="hide" widget="float_time"/>
+                <field name="total_cost" sum="Total" optional="show"/>
+                <field name="resolution_status" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- ============================================ -->
+    <!-- INTERVENTION KANBAN VIEW -->
+    <!-- ============================================ -->
+    <record id="view_patrimoine_intervention_kanban" model="ir.ui.view">
+        <field name="name">patrimoine.intervention.kanban</field>
+        <field name="model">patrimoine.intervention</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" sample="1">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="reference"/>
+                <field name="equipment_id"/>
+                <field name="intervention_type"/>
+                <field name="priority"/>
+                <field name="technician_id"/>
+                <field name="state"/>
+                <field name="total_cost"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="reference"/>: <field name="name"/>
+                                        </strong>
+                                    </div>
+                                    <span t-if="record.priority.raw_value == 'urgent'" class="badge badge-danger">
+                                        Urgent
+                                    </span>
+                                    <span t-elif="record.priority.raw_value == 'high'" class="badge badge-warning">
+                                        Haute
+                                    </span>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <div>
+                                        <i class="fa fa-wrench"/> <field name="equipment_id"/>
+                                    </div>
+                                    <div>
+                                        <i class="fa fa-tag"/> <field name="intervention_type"/>
+                                    </div>
+                                    <div t-if="record.technician_id.value">
+                                        <i class="fa fa-user"/> <field name="technician_id"/>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <field name="intervention_date" widget="date"/>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <field name="total_cost" widget="monetary"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- ============================================ -->
+    <!-- INTERVENTION SEARCH VIEW -->
+    <!-- ============================================ -->
+    <record id="view_patrimoine_intervention_search" model="ir.ui.view">
+        <field name="name">patrimoine.intervention.search</field>
+        <field name="model">patrimoine.intervention</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher Interventions">
+                <field name="name" filter_domain="['|', ('name','ilike',self), ('reference','ilike',self)]"/>
+                <field name="equipment_id"/>
+                <field name="technician_id"/>
+                <field name="requester_id"/>
+
+                <filter string="Mes Interventions" name="filter_my_interventions"
+                        domain="[('technician_id.user_id', '=', uid)]"/>
+                <filter string="Mes Demandes" name="filter_my_requests"
+                        domain="[('requester_id.user_id', '=', uid)]"/>
+
+                <separator/>
+                <filter string="Brouillon" name="filter_draft" domain="[('state','=','draft')]"/>
+                <filter string="Soumises" name="filter_submitted" domain="[('state','=','submitted')]"/>
+                <filter string="Assignées" name="filter_assigned" domain="[('state','=','assigned')]"/>
+                <filter string="En Cours" name="filter_in_progress" domain="[('state','=','in_progress')]"/>
+                <filter string="Terminées" name="filter_done" domain="[('state','=','done')]"/>
+
+                <separator/>
+                <filter string="Urgentes" name="filter_urgent" domain="[('priority','=','urgent')]"/>
+                <filter string="Haute Priorité" name="filter_high" domain="[('priority','=','high')]"/>
+
+                <separator/>
+                <filter string="Cette Semaine" name="filter_this_week"
+                        domain="[('intervention_date','&gt;=', (context_today() - relativedelta(weeks=1)).strftime('%Y-%m-%d'))]"/>
+                <filter string="Ce Mois" name="filter_this_month"
+                        domain="[('intervention_date','&gt;=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-%d'))]"/>
+
+                <group expand="0" string="Grouper par">
+                    <filter string="État" name="group_state" context="{'group_by':'state'}"/>
+                    <filter string="Technicien" name="group_technician" context="{'group_by':'technician_id'}"/>
+                    <filter string="Équipement" name="group_equipment" context="{'group_by':'equipment_id'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by':'intervention_type'}"/>
+                    <filter string="Priorité" name="group_priority" context="{'group_by':'priority'}"/>
+                    <filter string="Date" name="group_date" context="{'group_by':'intervention_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ============================================ -->
+    <!-- ACTIONS -->
+    <!-- ============================================ -->
+    <record id="action_patrimoine_intervention" model="ir.actions.act_window">
+        <field name="name">Interventions</field>
+        <field name="res_model">patrimoine.intervention</field>
+        <field name="view_mode">kanban,tree,form,pivot,graph,calendar</field>
+        <field name="search_view_id" ref="view_patrimoine_intervention_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créer une nouvelle intervention
+            </p>
+            <p>
+                Enregistrez les demandes de maintenance et réparations.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_patrimoine_intervention_pending" model="ir.actions.act_window">
+        <field name="name">Interventions En Attente</field>
+        <field name="res_model">patrimoine.intervention</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('state', 'in', ['submitted', 'assigned'])]</field>
+        <field name="context">{'search_default_filter_submitted': 1}</field>
+    </record>
+
+    <record id="action_patrimoine_intervention_in_progress" model="ir.actions.act_window">
+        <field name="name">Interventions En Cours</field>
+        <field name="res_model">patrimoine.intervention</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('state', '=', 'in_progress')]</field>
+        <field name="context">{'search_default_filter_in_progress': 1}</field>
+    </record>
+
+    <record id="action_patrimoine_intervention_urgent" model="ir.actions.act_window">
+        <field name="name">Interventions Urgentes</field>
+        <field name="res_model">patrimoine.intervention</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="domain">[('priority', '=', 'urgent'), ('state', 'not in', ['done', 'cancelled'])]</field>
+        <field name="context">{'search_default_filter_urgent': 1}</field>
+    </record>
+
+    <!-- Calendar View -->
+    <record id="view_patrimoine_intervention_calendar" model="ir.ui.view">
+        <field name="name">patrimoine.intervention.calendar</field>
+        <field name="model">patrimoine.intervention</field>
+        <field name="arch" type="xml">
+            <calendar string="Interventions" date_start="intervention_date"
+                      color="priority" mode="month" quick_add="False">
+                <field name="name"/>
+                <field name="equipment_id"/>
+                <field name="technician_id"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+</odoo>

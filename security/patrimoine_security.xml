@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Categories -->
+        <record id="module_category_patrimoine" model="ir.module.category">
+            <field name="name">Gestion du Patrimoine</field>
+            <field name="description">Gestion des équipements et interventions</field>
+            <field name="sequence">10</field>
+        </record>
+
+        <!-- User Group -->
+        <record id="group_patrimoine_user" model="res.groups">
+            <field name="name">Utilisateur</field>
+            <field name="category_id" ref="module_category_patrimoine"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <!-- Technician Group -->
+        <record id="group_patrimoine_technician" model="res.groups">
+            <field name="name">Technicien</field>
+            <field name="category_id" ref="module_category_patrimoine"/>
+            <field name="implied_ids" eval="[(4, ref('group_patrimoine_user'))]"/>
+        </record>
+
+        <!-- Manager Group -->
+        <record id="group_patrimoine_manager" model="res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_category_patrimoine"/>
+            <field name="implied_ids" eval="[(4, ref('group_patrimoine_technician'))]"/>
+        </record>
+
+        <!-- Record Rules for Equipment -->
+        <record id="patrimoine_equipment_user_rule" model="ir.rule">
+            <field name="name">Equipment: User can see all</field>
+            <field name="model_id" ref="model_patrimoine_equipment"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_patrimoine_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="patrimoine_equipment_technician_rule" model="ir.rule">
+            <field name="name">Equipment: Technician can edit</field>
+            <field name="model_id" ref="model_patrimoine_equipment"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_patrimoine_technician'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="patrimoine_equipment_manager_rule" model="ir.rule">
+            <field name="name">Equipment: Manager full access</field>
+            <field name="model_id" ref="model_patrimoine_equipment"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_patrimoine_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+        <!-- Record Rules for Intervention -->
+        <record id="patrimoine_intervention_user_rule" model="ir.rule">
+            <field name="name">Intervention: User can create and see own</field>
+            <field name="model_id" ref="model_patrimoine_intervention"/>
+            <field name="domain_force">['|', ('requester_id.user_ids', 'in', [user.id]), ('technician_id.user_ids', 'in', [user.id])]</field>
+            <field name="groups" eval="[(4, ref('group_patrimoine_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="patrimoine_intervention_technician_rule" model="ir.rule">
+            <field name="name">Intervention: Technician can see and edit all</field>
+            <field name="model_id" ref="model_patrimoine_intervention"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_patrimoine_technician'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+        <record id="patrimoine_intervention_manager_rule" model="ir.rule">
+            <field name="name">Intervention: Manager full access</field>
+            <field name="model_id" ref="model_patrimoine_intervention"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_patrimoine_manager'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+    </data>
+</odoo>

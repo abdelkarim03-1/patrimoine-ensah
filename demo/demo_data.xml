@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- ========================================== -->
+        <!-- DEMO CONTACTS (Technicians & Staff) -->
+        <!-- ========================================== -->
+        <record id="demo_partner_technician_1" model="res.partner">
+            <field name="name">Ahmed Benali</field>
+            <field name="phone">+212-661-234567</field>
+            <field name="email">a.benali@ensah.ma</field>
+            <field name="function">Technicien Informatique</field>
+            <field name="company_type">person</field>
+        </record>
+
+        <record id="demo_partner_technician_2" model="res.partner">
+            <field name="name">Fatima El Amrani</field>
+            <field name="phone">+212-662-345678</field>
+            <field name="email">f.elamrani@ensah.ma</field>
+            <field name="function">Technicienne Maintenance</field>
+            <field name="company_type">person</field>
+        </record>
+
+        <record id="demo_partner_manager" model="res.partner">
+            <field name="name">Mohammed Alaoui</field>
+            <field name="phone">+212-663-456789</field>
+            <field name="email">m.alaoui@ensah.ma</field>
+            <field name="function">Responsable Patrimoine</field>
+            <field name="company_type">person</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- DEMO SUPPLIERS -->
+        <!-- ========================================== -->
+        <record id="demo_supplier_dell" model="patrimoine.supplier">
+            <field name="name">Dell Technologies Maroc</field>
+            <field name="code">DELL-MA</field>
+            <field name="supplier_type">manufacturer</field>
+            <field name="phone">+212-520-123456</field>
+            <field name="email">contact@dell.ma</field>
+            <field name="city">Casablanca</field>
+            <field name="country_id" ref="base.ma"/>
+            <field name="rating">5</field>
+        </record>
+
+        <record id="demo_supplier_hp" model="patrimoine.supplier">
+            <field name="name">HP Maroc</field>
+            <field name="code">HP-MA</field>
+            <field name="supplier_type">manufacturer</field>
+            <field name="phone">+212-520-234567</field>
+            <field name="email">info@hp.ma</field>
+            <field name="city">Rabat</field>
+            <field name="country_id" ref="base.ma"/>
+            <field name="rating">4</field>
+        </record>
+
+        <record id="demo_supplier_local" model="patrimoine.supplier">
+            <field name="name">TechnoMaroc Distribution</field>
+            <field name="code">TECHNO</field>
+            <field name="supplier_type">distributor</field>
+            <field name="phone">+212-539-123456</field>
+            <field name="email">contact@technomaroc.ma</field>
+            <field name="city">Al Hoceima</field>
+            <field name="country_id" ref="base.ma"/>
+            <field name="rating">3</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- DEMO LOCATIONS (already have 3 from intervention_type_data.xml) -->
+        <!-- ========================================== -->
+        <record id="demo_location_lab_2" model="patrimoine.location">
+            <field name="name">Laboratoire Informatique 2</field>
+            <field name="code">LAB-INFO-2</field>
+            <field name="building">Bâtiment Principal</field>
+            <field name="floor">1er</field>
+            <field name="location_type">lab</field>
+            <field name="capacity">25</field>
+            <field name="responsible_id" ref="demo_partner_manager"/>
+        </record>
+
+        <record id="demo_location_salle_101" model="patrimoine.location">
+            <field name="name">Salle de Cours 101</field>
+            <field name="code">SC-101</field>
+            <field name="building">Bâtiment Principal</field>
+            <field name="floor">1er</field>
+            <field name="location_type">classroom</field>
+            <field name="capacity">40</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- DEMO EQUIPMENT -->
+        <!-- ========================================== -->
+
+        <!-- Computers -->
+        <record id="demo_equipment_pc_1" model="patrimoine.equipment">
+            <field name="name">Dell Latitude 5420 - PC001</field>
+            <field name="category_id" ref="category_it"/>
+            <field name="sub_category">Laptop</field>
+            <field name="location_id" ref="location_ensah_lab_info"/>
+            <field name="brand">Dell</field>
+            <field name="model">Latitude 5420</field>
+            <field name="serial_number">DL5420-2023-001</field>
+            <field name="barcode">PC-LAB-001</field>
+            <field name="state">in_use</field>
+            <field name="condition">good</field>
+            <field name="supplier_id" ref="demo_supplier_dell"/>
+            <field name="purchase_date">2023-01-15</field>
+            <field name="purchase_price">12000.00</field>
+            <field name="warranty_start_date">2023-01-15</field>
+            <field name="warranty_duration">36</field>
+            <field name="activation_date">2023-01-20</field>
+            <field name="responsible_id" ref="demo_partner_manager"/>
+            <field name="description">Ordinateur portable pour salle lab informatique</field>
+            <field name="specifications">&lt;p&gt;&lt;strong&gt;Spécifications:&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Processeur: Intel Core i7-1165G7&lt;/li&gt;&lt;li&gt;RAM: 16GB DDR4&lt;/li&gt;&lt;li&gt;Disque: 512GB SSD&lt;/li&gt;&lt;li&gt;Écran: 14" FHD&lt;/li&gt;&lt;/ul&gt;</field>
+        </record>
+
+        <record id="demo_equipment_pc_2" model="patrimoine.equipment">
+            <field name="name">HP EliteBook 840 - PC002</field>
+            <field name="category_id" ref="category_it"/>
+            <field name="sub_category">Laptop</field>
+            <field name="location_id" ref="location_ensah_lab_info"/>
+            <field name="brand">HP</field>
+            <field name="model">EliteBook 840 G8</field>
+            <field name="serial_number">HP840-2023-002</field>
+            <field name="barcode">PC-LAB-002</field>
+            <field name="state">maintenance</field>
+            <field name="condition">fair</field>
+            <field name="supplier_id" ref="demo_supplier_hp"/>
+            <field name="purchase_date">2023-03-10</field>
+            <field name="purchase_price">11500.00</field>
+            <field name="warranty_start_date">2023-03-10</field>
+            <field name="warranty_duration">24</field>
+            <field name="activation_date">2023-03-15</field>
+            <field name="responsible_id" ref="demo_partner_manager"/>
+            <field name="description">Ordinateur portable - actuellement en maintenance</field>
+        </record>
+
+        <!-- Projectors -->
+        <record id="demo_equipment_proj_1" model="patrimoine.equipment">
+            <field name="name">Projecteur Epson EB-2250U</field>
+            <field name="category_id" ref="category_audiovisual"/>
+            <field name="sub_category">Projecteur</field>
+            <field name="location_id" ref="location_ensah_amphi"/>
+            <field name="brand">Epson</field>
+            <field name="model">EB-2250U</field>
+            <field name="serial_number">EPSON-2023-001</field>
+            <field name="barcode">PROJ-AMPHI-001</field>
+            <field name="state">in_use</field>
+            <field name="condition">excellent</field>
+            <field name="supplier_id" ref="demo_supplier_local"/>
+            <field name="purchase_date">2023-09-01</field>
+            <field name="purchase_price">18000.00</field>
+            <field name="warranty_start_date">2023-09-01</field>
+            <field name="warranty_duration">24</field>
+            <field name="activation_date">2023-09-05</field>
+            <field name="responsible_id" ref="demo_partner_technician_1"/>
+            <field name="requires_preventive_maintenance" eval="True"/>
+            <field name="maintenance_frequency">180</field>
+            <field name="description">Projecteur haute résolution pour amphithéâtre</field>
+        </record>
+
+        <!-- Network Equipment -->
+        <record id="demo_equipment_switch" model="patrimoine.equipment">
+            <field name="name">Switch Cisco Catalyst 2960</field>
+            <field name="category_id" ref="category_network"/>
+            <field name="sub_category">Switch</field>
+            <field name="location_id" ref="demo_location_lab_2"/>
+            <field name="brand">Cisco</field>
+            <field name="model">Catalyst 2960-24TT-L</field>
+            <field name="serial_number">CISCO-2023-SW001</field>
+            <field name="barcode">NET-LAB2-001</field>
+            <field name="state">in_use</field>
+            <field name="condition">good</field>
+            <field name="supplier_id" ref="demo_supplier_local"/>
+            <field name="purchase_date">2023-06-15</field>
+            <field name="purchase_price">8500.00</field>
+            <field name="warranty_start_date">2023-06-15</field>
+            <field name="warranty_duration">12</field>
+            <field name="activation_date">2023-06-20</field>
+            <field name="responsible_id" ref="demo_partner_technician_1"/>
+            <field name="description">Switch 24 ports pour laboratoire</field>
+        </record>
+
+        <!-- Furniture -->
+        <record id="demo_equipment_desk" model="patrimoine.equipment">
+            <field name="name">Bureau Enseignant - Bureau001</field>
+            <field name="category_id" ref="category_furniture"/>
+            <field name="sub_category">Bureau</field>
+            <field name="location_id" ref="demo_location_salle_101"/>
+            <field name="brand">MobilierPro</field>
+            <field name="state">available</field>
+            <field name="condition">good</field>
+            <field name="supplier_id" ref="demo_supplier_local"/>
+            <field name="purchase_date">2022-08-01</field>
+            <field name="purchase_price">2500.00</field>
+            <field name="activation_date">2022-08-05</field>
+            <field name="description">Bureau en bois pour enseignant</field>
+        </record>
+
+        <!-- ========================================== -->
+        <!-- DEMO INTERVENTIONS -->
+        <!-- ========================================== -->
+
+        <!-- Completed Intervention -->
+        <record id="demo_intervention_1" model="patrimoine.intervention">
+            <field name="name">Remplacement disque dur PC002</field>
+            <field name="equipment_id" ref="demo_equipment_pc_2"/>
+            <field name="intervention_type">repair</field>
+            <field name="priority">high</field>
+            <field name="requester_id" ref="demo_partner_manager"/>
+            <field name="technician_id" ref="demo_partner_technician_1"/>
+            <field name="location_id" ref="location_ensah_lab_info"/>
+            <field name="request_date">2024-11-25 09:00:00</field>
+            <field name="intervention_date">2024-11-27</field>
+            <field name="start_datetime">2024-11-27 09:00:00</field>
+            <field name="end_datetime">2024-11-27 11:00:00</field>
+            <field name="state">done</field>
+            <field name="description">&lt;p&gt;Le disque dur de l'ordinateur PC002 est défaillant. L'ordinateur ne démarre plus et affiche un message d'erreur "No bootable device".&lt;/p&gt;</field>
+            <field name="diagnostic">&lt;p&gt;Après diagnostic, le disque dur SSD est HS (défaillance mécanique). Besoin de remplacement.&lt;/p&gt;</field>
+            <field name="work_done">&lt;p&gt;&lt;strong&gt;Travaux effectués:&lt;/strong&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Retrait de l'ancien SSD défaillant&lt;/li&gt;&lt;li&gt;Installation du nouveau SSD 512GB&lt;/li&gt;&lt;li&gt;Installation système Windows 10 Pro&lt;/li&gt;&lt;li&gt;Installation logiciels de base&lt;/li&gt;&lt;li&gt;Tests de fonctionnement&lt;/li&gt;&lt;/ul&gt;</field>
+            <field name="recommendations">&lt;p&gt;Recommandation: Effectuer des sauvegardes régulières. Prévoir un remplacement préventif des SSD après 3-4 ans d'utilisation intensive.&lt;/p&gt;</field>
+            <field name="labor_cost">800.00</field>
+            <field name="other_costs">200.00</field>
+            <field name="resolution_status">fixed</field>
+            <field name="customer_satisfaction">very_satisfied</field>
+        </record>
+
+        <!-- Spare parts for intervention 1 -->
+        <record id="demo_spare_part_1" model="patrimoine.intervention.spare.part">
+            <field name="intervention_id" ref="demo_intervention_1"/>
+            <field name="name">SSD Samsung 870 EVO 512GB</field>
+            <field name="reference">MZ-77E512B</field>
+            <field name="quantity">1</field>
+            <field name="unit_price">950.00</field>
+        </record>
+
+        <!-- In Progress Intervention -->
+        <record id="demo_intervention_2" model="patrimoine.intervention">
+            <field name="name">Maintenance préventive projecteur</field>
+            <field name="equipment_id" ref="demo_equipment_proj_1"/>
+            <field name="intervention_type">maintenance</field>
+            <field name="priority">normal</field>
+            <field name="requester_id" ref="demo_partner_manager"/>
+            <field name="technician_id" ref="demo_partner_technician_2"/>
+            <field name="location_id" ref="location_ensah_amphi"/>
+            <field name="request_date">2024-11-30 10:00:00</field>
+            <field name="intervention_date">2024-12-02</field>
+            <field name="start_datetime">2024-12-02 14:00:00</field>
+            <field name="state">in_progress</field>
+            <field name="description">&lt;p&gt;Maintenance préventive programmée: nettoyage filtres, vérification lampe, test général.&lt;/p&gt;</field>
+            <field name="diagnostic">&lt;p&gt;Filtre à air très encrassé. Lampe à 80% de durée de vie. Sinon RAS.&lt;/p&gt;</field>
+            <field name="labor_cost">400.00</field>
+        </record>
+
+        <!-- Pending Intervention (Urgent) -->
+        <record id="demo_intervention_3" model="patrimoine.intervention">
+            <field name="name">Panne switch réseau Lab 2</field>
+            <field name="equipment_id" ref="demo_equipment_switch"/>
+            <field name="intervention_type">repair</field>
+            <field name="priority">urgent</field>
+            <field name="requester_id" ref="demo_partner_manager"/>
+            <field name="technician_id" ref="demo_partner_technician_1"/>
+            <field name="location_id" ref="demo_location_lab_2"/>
+            <field name="request_date">2024-12-02 08:00:00</field>
+            <field name="state">assigned</field>
+            <field name="description">&lt;p&gt;&lt;strong&gt;URGENT:&lt;/strong&gt; Le switch du laboratoire 2 ne fonctionne plus. Aucun voyant allumé. Pas de réseau dans le lab.&lt;/p&gt;</field>
+        </record>
+
+        <!-- Simple Intervention -->
+        <record id="demo_intervention_4" model="patrimoine.intervention">
+            <field name="name">Installation logiciel PC001</field>
+            <field name="equipment_id" ref="demo_equipment_pc_1"/>
+            <field name="intervention_type">installation</field>
+            <field name="priority">low</field>
+            <field name="requester_id" ref="demo_partner_manager"/>
+            <field name="request_date">2024-12-01 14:00:00</field>
+            <field name="state">submitted</field>
+            <field name="description">&lt;p&gt;Besoin d'installer Visual Studio Code et Python 3.11 sur le PC001.&lt;/p&gt;</field>
+        </record>
+
+    </data>
+</odoo>

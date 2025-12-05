@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Sequence for Equipment -->
+    <record id="sequence_patrimoine_equipment" model="ir.sequence">
+        <field name="name">Equipment Sequence</field>
+        <field name="code">patrimoine.equipment.sequence</field>
+        <field name="prefix">EQP-</field>
+        <field name="padding">5</field>
+        <field name="number_increment">1</field>
+        <field name="number_next">1</field>
+        <field name="implementation">standard</field>
+    </record>
+
+    <!-- Sequence for Intervention -->
+    <record id="sequence_patrimoine_intervention" model="ir.sequence">
+        <field name="name">Intervention Sequence</field>
+        <field name="code">patrimoine.intervention.sequence</field>
+        <field name="prefix">INT-</field>
+        <field name="padding">5</field>
+        <field name="number_increment">1</field>
+        <field name="number_next">1</field>
+        <field name="implementation">standard</field>
+    </record>
+</odoo>

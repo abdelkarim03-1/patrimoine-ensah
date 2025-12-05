@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Location Form View -->
+    <record id="view_patrimoine_location_form" model="ir.ui.view">
+        <field name="name">patrimoine.location.form</field>
+        <field name="model">patrimoine.location</field>
+        <field name="arch" type="xml">
+            <form string="Localisation">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object"
+                                name="action_view_equipment" icon="fa-wrench">
+                            <field name="equipment_count" widget="statinfo" string="Équipements"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="location_type"/>
+                        </group>
+                        <group>
+                            <field name="building"/>
+                            <field name="floor"/>
+                            <field name="responsible_id" domain="[('active', '=', True)]"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="capacity"/>
+                            <field name="surface_area"/>
+                        </group>
+                        <group>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description" placeholder="Description de l'emplacement..."/>
+                    </group>
+                    <group>
+                        <field name="notes" placeholder="Notes..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Location Tree View -->
+    <record id="view_patrimoine_location_tree" model="ir.ui.view">
+        <field name="name">patrimoine.location.tree</field>
+        <field name="model">patrimoine.location</field>
+        <field name="arch" type="xml">
+            <tree string="Localisations">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="building"/>
+                <field name="floor"/>
+                <field name="location_type"/>
+                <field name="capacity"/>
+                <field name="equipment_count"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Location Kanban View -->
+    <record id="view_patrimoine_location_kanban" model="ir.ui.view">
+        <field name="name">patrimoine.location.kanban</field>
+        <field name="model">patrimoine.location</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="id"/>
+                <field name="name"/>
+                <field name="building"/>
+                <field name="floor"/>
+                <field name="location_type"/>
+                <field name="equipment_count"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <strong class="o_kanban_record_title">
+                                    <field name="name"/>
+                                </strong>
+                                <div>
+                                    <i class="fa fa-building"/> <field name="building"/>
+                                    <span t-if="record.floor.value"> - <field name="floor"/></span>
+                                </div>
+                                <div>
+                                    <field name="location_type"/>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <span>
+                                        <i class="fa fa-wrench"/> <field name="equipment_count"/> équipements
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Location Action -->
+    <record id="action_patrimoine_location" model="ir.actions.act_window">
+        <field name="name">Localisations</field>
+        <field name="res_model">patrimoine.location</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+</odoo>

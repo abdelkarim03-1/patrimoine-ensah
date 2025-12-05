@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Dashboard Action (Placeholder - will be enhanced later) -->
+    <record id="action_patrimoine_dashboard_temp" model="ir.actions.act_window">
+        <field name="name">Tableau de Bord</field>
+        <field name="res_model">patrimoine.equipment</field>
+        <field name="view_mode">graph,pivot,kanban,tree</field>
+    </record>
+</odoo>
