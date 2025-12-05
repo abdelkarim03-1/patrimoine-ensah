@@ -46,16 +46,45 @@ Ce module permet de :
 
 ## Installation
 
-1. Copier le module dans le dossier `addons` de votre instance Odoo
-2. Mettre à jour la liste des modules
-3. Installer le module "Gestion du Patrimoine ENSAH"
+### Pour les Collaborateurs (Clone depuis GitHub)
+
+```bash
+# 1. Cloner le repository
+git clone https://github.com/abdelkarim03-1/patrimoine-ensah.git
+
+# 2. Copier le module dans votre dossier addons Odoo
+cp -r patrimoine-ensah /path/to/your/odoo/addons/patrimoine_ensah
+
+# 3. Redémarrer Odoo
+# Si vous utilisez Docker:
+docker restart odoo-web-1
+
+# Si vous utilisez Odoo en ligne de commande:
+# Arrêter et redémarrer votre service Odoo
+```
+
+### Dans Odoo
+
+1. Aller dans **Apps** (Applications)
+2. Cliquer sur "Update Apps List" (Mettre à jour la liste des applications)
+3. Rechercher "Gestion du Patrimoine ENSAH"
+4. Cliquer sur **Install**
+5. **Important:** Cocher "Load Demonstration Data" pour charger les données de test
+
+### Données de Démonstration
+
+Le module inclut des données de démonstration :
+- 5 équipements (PC, projecteur, switch réseau, bureau)
+- 4 interventions à différents états
+- 3 fournisseurs
+- Localisations de l'ENSAH
+- Contacts (techniciens et responsables)
 
 ## Dépendances
 
 - `base` : Module de base Odoo
 - `mail` : Pour le chatter et suivi
 - `web` : Interface web
-- `contacts_management` : Module de gestion des contacts (pour techniciens et staff)
 
 ## Configuration Initiale
 
@@ -97,4 +126,19 @@ LGPL-3
 
 ## Version
 
-Version 17.0.1.0.0 pour Odoo 17.0
+Version 16.0.1.0.0 pour Odoo 16.0
+
+## Contribution
+
+Pour contribuer au projet :
+
+1. Fork le repository
+2. Créer une branche pour votre fonctionnalité (`git checkout -b feature/nouvelle-fonctionnalite`)
+3. Commit vos changements (`git commit -m 'Ajout de nouvelle fonctionnalité'`)
+4. Push vers la branche (`git push origin feature/nouvelle-fonctionnalite`)
+5. Créer une Pull Request
+
+## Support
+
+Pour toute question ou problème :
+- GitHub Issues : https://github.com/abdelkarim03-1/patrimoine-ensah/issues
